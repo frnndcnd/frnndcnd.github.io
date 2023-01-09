@@ -14,12 +14,64 @@
         <li>¿Qué es React JS?</li>
         <li>¿Por qué deberíamos utilizar ReactJS?</li>
         <li>Explicar "DOM real" y "DOM virtual"</li>
+        <li>¿Por qué es inviable retornar elementos adyacentes en JSX?</li>
         <li>¿Qué son los "componentes"?</li>
         <li>¿Cuáles son las etapas de vida de un componente?</li>
-        <li>¿Cómo utilizar ReactJS las "key"?</li>
+        <li>¿Qué son los fragmentos?</li>
+        <li>¿Para qué utiliza ReactJS las "key"?</li>
         <li>¿Para qué se utiliza "setState"?</li>
         <li>¿Qué es un "estado"?</li>
         <li>¿Qué es React Redux?</li>
+        <li>¿Qué es el diseño atómico?</li>
+        <li>
+          ¿Qué diferencias existen entre el montaje y el renderizado de un
+          componente?
+        </li>
+        <li>
+          <p>
+            Considerando el siguiente código, ¿Cuántas veces se mostrará el
+            mensaje "<em>Hello</em>" en la consola?
+          </p>
+          <pre>
+            const App = (props) => {
+              const [counter, setCounter] = useState(0);
+              useEffect(
+                () => {
+                  console.log("Hello");
+                  setCounter(1);
+                },
+                [props.visible]
+              );
+              return <div>{counter}</div>;
+            };
+          </pre>
+        </li>
+        <li>
+          <p>¿Qué enunciado describe el siguiente código?</p>
+          <pre class="ql-syntax" spellcheck="false">
+            const fetchData = () => new Promise ((r) => setTimeout(() => r(Date.now()),100));
+            <br>
+            <br>
+            const MyComponent = () => {
+              const [result, setResult] = React.useState();
+              const data = fetchData().then((value) => setResult(value));
+              return (
+                <div>
+                  {result === data.toString() ? (
+                  <div>hello</div>
+                  ) : (
+                  <div>good bye</div>
+                  )}
+                </div>
+              );
+              
+            };
+          </pre>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
         <li></li>
         <li></li>
         <li></li>
