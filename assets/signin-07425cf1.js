@@ -1,1 +1,0 @@
-import{l as o,r as a,j as t,V as n}from"./vendor-8276265d.js";import{l as r}from"./index-daf50d5a.js";function l(){const{instance:s}=o();return a.useEffect(()=>{s.loginRedirect(r).catch(e=>console.log(e))},[s]),t.jsx("div",{className:"p-6",children:t.jsx(n,{loading:!0})})}export{l as default};
