@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+      integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <h1>QR Code Generator</h1>
+    <input id="texto" type="text" placeholder="Escribe tu nombre" />
+    <button onclick="generarQR()">Generar QR</button>
+    <div id="qrCode" style="margin-top: 20px"></div>
+
+    <script>
+      function generarQR() {
+        const contenedor = document.getElementById("qrCode");
+        contenedor.innerHTML = ""; // limpiar
+        new QRCode(contenedor, {
+          text: document.getElementById("texto").value,
+          width: 200,
+          height: 200,
+        });
+      }
+    </script>
+  </body>
+</html>
