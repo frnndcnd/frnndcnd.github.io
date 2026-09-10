@@ -7,7 +7,9 @@ const menu=[
 {id:'flan',name:'Flan de la casa',category:'Dulces y café',description:'Flan suave con caramelo, para cerrar con algo dulce.',price:2900,available:true},
 {id:'cafe',name:'Cafecito cubano',category:'Dulces y café',description:'Un café corto e intenso. El broche perfecto de la sobremesa.',price:1900,available:true}
 ];
+const applyDemoMenu=()=>{const saved=QuimbaraDemo.read();menu.forEach(p=>{const item=saved.find(x=>x.id===p.id);if(item){p.price=item.price;p.available=item.available;if(!p.available&&typeof cart!=='undefined')cart.delete(p.id);}});};
 const cart=new Map();let category='Todos';
+applyDemoMenu();
 const deliveryLinks={PedidosYa:'', 'Uber Eats':''};
 const chatTopics={
 hours:{question:'¿Cuál es el horario y dónde están?',answer:'La dirección publicada para esta demo es Manuel Montt 1041, local 43, Providencia. Los horarios aún deben confirmarse; puedes revisar las novedades en @quimbara_cu.'},
@@ -31,5 +33,7 @@ document.addEventListener('click',e=>{const add=e.target.closest('[data-add]');i
 $('chat-launcher').addEventListener('click',()=>{$('chat-dialog').showModal();});
 $('chat-form').addEventListener('submit',e=>{e.preventDefault();const input=$('chat-input');const question=input.value.trim();if(!question)return;appendChatMessage(question,'user');input.value='';window.setTimeout(()=>appendChatMessage(answerQuestion(question),'assistant'),250);});
 $('manage').addEventListener('click',()=>{$('edit-error').textContent='';$('edit-products').innerHTML=menu.map(p=>`<div class="edit-row"><label for="price-${p.id}">${p.name}<br><small>Precio en CLP</small></label><input id="price-${p.id}" name="price-${p.id}" type="number" min="1" max="999999" step="1" required value="${p.price}"><label class="edit-availability"><input id="available-${p.id}" type="checkbox" ${p.available?'checked':''}> Disponible</label></div>`).join('');$('manage-dialog').showModal();});
-$('edit-form').addEventListener('submit',e=>{e.preventDefault();const updates=menu.map(p=>({p,price:Number($(`price-${p.id}`).value),available:$(`available-${p.id}`).checked}));if(updates.some(u=>!Number.isInteger(u.price)||u.price<1||u.price>999999)){$('edit-error').textContent='Ingresa precios enteros entre $1 y $999.999.';return;}let removed=false;updates.forEach(({p,price,available})=>{p.price=price;p.available=available;if(!available&&cart.has(p.id)){cart.delete(p.id);removed=true;}});renderProducts();renderCart();$('manage-dialog').close();$('live').textContent=removed?'Carta actualizada. Se quitaron del pedido los productos agotados.':'Carta y total actualizados para esta demo.';});
+$('edit-form').addEventListener('submit',e=>{e.preventDefault();const updates=menu.map(p=>({p,price:Number($(`price-${p.id}`).value),available:$(`available-${p.id}`).checked}));if(updates.some(u=>!Number.isInteger(u.price)||u.price<1||u.price>999999)){$('edit-error').textContent='Ingresa precios enteros entre $1 y $999.999.';return;}let removed=false;updates.forEach(({p,price,available})=>{p.price=price;p.available=available;if(!available&&cart.has(p.id)){cart.delete(p.id);removed=true;}});const saved=QuimbaraDemo.save(menu);renderProducts();renderCart();$('manage-dialog').close();if(!saved){$('live').textContent='El navegador no permite guardar los cambios al navegar.';return;}$('live').textContent=removed?'Carta actualizada. Se quitaron del pedido los productos agotados.':'Carta y total actualizados para esta demo.';});
 renderProducts();renderCart();
+
+window.addEventListener('pageshow',e=>{if(e.persisted){applyDemoMenu();renderProducts();renderCart();}});
